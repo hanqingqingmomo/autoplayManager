@@ -1,9 +1,13 @@
 var express = require('express');
+var schedule = require("node-schedule");
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+var mongoose = require('./config/mongoose.js');
+var db = mongoose();
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -42,5 +46,22 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+   //var rule = new schedule.RecurrenceRule();
+
+   //var times = [];
+
+   //for(var i=1; i<60; i++){
+
+     //times.push(i);
+
+   //}
+
+   //rule.second = times;
+
+  //var c=0; 　　
+  //var j = schedule.scheduleJob(rule, function(){ 　　 c++; 　　console.log(c); 　　});
+
 
 module.exports = app;
