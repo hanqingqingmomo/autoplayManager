@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 var Autoplay = new Schema({
+   conferenceId: String,
    link: String,
    youtubeLink: String,
    isMuted: Number,
@@ -14,7 +15,7 @@ var Autoplay = new Schema({
    volume: String,
    startAt: Number,
    //startTime: Date,
-   startTime: String,
+   startTime: Date,
    hashedId: String,
    videoType: String
   });
