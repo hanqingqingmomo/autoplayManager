@@ -57,7 +57,7 @@ router.get('/test', function(req, res, next) {
 router.post('/create', function(req, res, next) {
   console.log("========", req.body)
   var autoplay = new Autoplay(req.body)
-  autoplay.save(funcNumberrr, autoplay){
+  autoplay.save(function(err, autoplay){
     if (err){
       res.json(err);
       return next();
