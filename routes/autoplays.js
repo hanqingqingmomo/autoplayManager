@@ -64,10 +64,12 @@ router.post('/create', function(req, res, next) {
     } else {
 
       var name = autoplay.conferenceId;
-      var date = new Date(startTime);
+      var date = new Date(autoplay.startTime);
       console.log("=================", autoplay.startTime);
 
       var job = schedule.scheduleJob(name, date, function(){
+
+        console.log("++++++++++++++++++++++++")
 
         var connection = socket.connect(autoplay.serverUrl, {
           secure: true,
