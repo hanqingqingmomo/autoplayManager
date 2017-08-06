@@ -57,15 +57,17 @@ router.get('/test', function(req, res, next) {
 router.post('/create', function(req, res, next) {
   console.log("========", req.body)
   var autoplay = new Autoplay(req.body)
-  autoplay.save(function(err, autoplay){
+  autoplay.save(funcNumberrr, autoplay){
     if (err){
       res.json(err);
       return next();
     } else {
 
-      var name = autoplay.conferenceId 
+      var name = autoplay.conferenceId;
+      var date = new Date(startTime);
       console.log("=================", autoplay.startTime);
-      var job = schedule.scheduleJob(name, autoplay.startTime, function(){
+
+      var job = schedule.scheduleJob(name, date, function(){
 
         var connection = socket.connect(autoplay.serverUrl, {
           secure: true,

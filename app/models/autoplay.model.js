@@ -15,7 +15,7 @@ var Autoplay = new Schema({
    elapseTime: Number,
    volume: String,
    startAt: Number,
-   startTime: String,
+   startTime: Number,
    hashedId: String,
    sendStatus: {type: String, default: 0},
    videoType: String
