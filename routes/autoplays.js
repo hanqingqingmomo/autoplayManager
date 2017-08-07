@@ -64,8 +64,8 @@ router.post('/create', function(req, res, next) {
     } else {
 
       var name = autoplay.conferenceId;
-      var date = new Date(autoplay.startTime);
-      console.log("=================", autoplay.startTime);
+      var date = new Date(autoplay.startTime * 1000);
+      console.log("=================", date);
 
       var job = schedule.scheduleJob(name, date, function(){
 
@@ -76,9 +76,9 @@ router.post('/create', function(req, res, next) {
           query:  autoplay.keys
         });
 
-        socket.on('connect', function(){
+        connection.on('connect', function(){
           console("-----------------------------")
-          socket.emit('videoShare:load', JSON.stringify(autoplay))
+          connection.emit('videoShare:load', JSON.stringify(autoplay))
           Autoplay.update({_id: autoplay._id},{$set:{sendStatus: 1}},function(err){
            if (err){
              console.log("===========", err);
