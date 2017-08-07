@@ -77,7 +77,7 @@ router.post('/create', function(req, res, next) {
         });
 
         connection.on('connect', function(){
-          console("-----------------------------")
+          console.log("-----------------------------")
           connection.emit('videoShare:load', JSON.stringify(autoplay))
           Autoplay.update({_id: autoplay._id},{$set:{sendStatus: 1}},function(err){
            if (err){
