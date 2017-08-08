@@ -13,6 +13,13 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var autoplays = require('./routes/autoplays');
 
+var mongoose = require('mongoose');
+var Autoplay = mongoose.model('Autoplay');
+
+var schedule = require('node-schedule');
+var io = require('socket.io-client');
+var socket = require('socket.io-client');
+
 var app = express();
 
 // view engine setup
@@ -50,20 +57,40 @@ app.use(function(err, req, res, next) {
 });
 
 
-   //var rule = new schedule.RecurrenceRule();
+Autoplay.find({sendStatus: 0}).stream()
+  .on('data', function(autoplay){
+     var name = autoplay.conferenceId;
+     var date = new Date(autoplay.startTime * 1000);
 
-   //var times = [];
+     var job = schedule.scheduleJob(name, date, function(){
+        console.log("++++++++++++++++++++++++", JSON.stringify(autoplay))
+        var connection = socket.connect(autoplay.serverUrl, {
+          secure: true,
+          query:  autoplay.keys
+        });
 
-   //for(var i=1; i<60; i++){
+        connection.on('connect', function(){
+          console.log("-----------------------------")
+          console.log("------------", JSON.stringify(autoplay))
+          connection.emit('videoShare:load', JSON.stringify(autoplay))
+          Autoplay.update({_id: autoplay._id},{$set:{sendStatus: 1}},function(err){
+           if (err){
+             console.log("===========", err);
+           }
+          });
+        });
 
-     //times.push(i);
+      });
+  })
+  .on('error', function(err){
+    // handle error
+  })
+  .on('end', function(){
+    // final callback
+  });
 
-   //}
 
-   //rule.second = times;
 
-  //var c=0; 　　
-  //var j = schedule.scheduleJob(rule, function(){ 　　 c++; 　　console.log(c); 　　});
 
 
 module.exports = app;

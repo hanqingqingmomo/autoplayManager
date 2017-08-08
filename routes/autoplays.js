@@ -36,21 +36,34 @@ router.post('/cancle', function(req, res, next) {
 });
 
 
-router.get('/test', function(req, res, next) {
+router.get('/find', function(req, res, next) {
 
+  var conferenceId = req.query.id
+    Autoplay.findOne({conferenceId: conferenceId}, function(err,autoplay){
 
-  console.log("==========", req.query.date)
-  var date = req.query.date
-  var d = new Date("2017-08-04 14:26:00")
+      console.log("=====", autoplay)
 
+        if (autoplay){
+          var connection = socket.connect(autoplay.serverUrl, {
+            secure: true,
+            query:  autoplay.keys
+          });
 
-  console.log("==========", d)
-  var j = schedule.scheduleJob("test", d, function(){
-    console.log('The world is going to end today.');
-  });
+          connection.on('connect', function(){
+            console.log("-----------------------------")
+              console.log("------------", JSON.stringify(autoplay))
+              connection.emit('videoShare:load', JSON.stringify(autoplay))
+              Autoplay.update({_id: autoplay._id},{$set:{sendStatus: 1}},function(err){
+                if (err){
+                  console.log("===========", err);
+                }
+              });
+          });
+
+        }
+    });
 
   res.send('respond with a resource');
-
 
 });
 
