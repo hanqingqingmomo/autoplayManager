@@ -69,7 +69,9 @@ router.post('/create', function(req, res, next) {
 
       var job = schedule.scheduleJob(name, date, function(){
 
-        console.log("++++++++++++++++++++++++")
+        console.log("++++++++++++++++++++++++", JSON.stringify(autoplay))
+        console.log("++++++++++++++++++++++++", autoplay.keys)
+        console.log("++++++++++++++++++++++++", autoplay.serverUrl)
 
         var connection = socket.connect(autoplay.serverUrl, {
           secure: true,

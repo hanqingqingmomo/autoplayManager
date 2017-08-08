@@ -1,7 +1,7 @@
 var sc = require('socket.io-client');
 var ab = sc.connect("https://wrtc21.bigmarker.com:443", {
   secure: true,
-  query: "uid=3958f03e6d28&rid=95715fb6caf6"
+  query: "uid=3958f03e6d28&rid=9f7d19a74d50"
 });
 
 ab.on('connect', function(){
