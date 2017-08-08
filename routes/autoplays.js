@@ -23,9 +23,9 @@ router.get('/list', function(req, res, next) {
 
 });
 
-router.get('/cancle', function(req, res, next) {
+router.post('/cancle', function(req, res, next) {
 
-  var name = req.query.name
+  var name = req.body.name
   var my_job = schedule.scheduledJobs[name]
   if (my_job){
     my_job.cancel()
@@ -78,6 +78,7 @@ router.post('/create', function(req, res, next) {
 
         connection.on('connect', function(){
           console.log("-----------------------------")
+          console.log("------------", JSON.stringify(autoplay))
           connection.emit('videoShare:load', JSON.stringify(autoplay))
           Autoplay.update({_id: autoplay._id},{$set:{sendStatus: 1}},function(err){
            if (err){
