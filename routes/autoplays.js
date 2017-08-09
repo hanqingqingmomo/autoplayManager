@@ -46,7 +46,7 @@ router.get('/find', function(req, res, next) {
         if (autoplay){
 
 
-          var ab = sc.connect("https://wrtc-test1.bigmarker.com", {
+          var ab = socket.connect("https://wrtc-test1.bigmarker.com", {
   secure: true,
   query: "uid=3958f03e6d28&rid=d897f8ef4553"
 });
