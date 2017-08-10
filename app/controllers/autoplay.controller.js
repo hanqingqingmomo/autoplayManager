@@ -87,24 +87,22 @@ module.exports = {
 
           var name = autoplay.conferenceId;
           var date = new Date(autoplay.startTime * 1000);
-          //var date = new Date(Date.now()+80000);
+          var params = req.body;
+          //var date = new Date(Date.now()+50000);
 
           console.log("============", date);
+          console.log("============", params);
 
           var job = schedule.scheduleJob(name, date, function(){
-
-            console.log("++++++++++++++++++++++++", JSON.stringify(autoplay))
 
               var connection = socket.connect(autoplay.serverUrl, {
                 secure: true,
                 query:  autoplay.keys
               });
 
-
             if (connection.connected == true) {
-
-              console.log("------------1111", JSON.stringify(autoplay))
-              connection.emit('videoShare:load', {"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=SvVTFgKJBeU","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"d08e1c97a115","serverUrl":"https://wrtc21.bigmarker.com","keys":"uid=3958f03e6d28&rid=d9537b7eeca2","volume":"100","startAt":0,"startTime":1502352777,"_id":"598c15293a73cc1da1f7df4f","sendStatus":"0"});
+              console.log("------------1111")
+              connection.emit('videoShare:load', params);
               Autoplay.update({_id: autoplay._id},{$set:{sendStatus: 1}},function(err){
                 if (err){
                   console.log("===========", err);
@@ -112,8 +110,8 @@ module.exports = {
               });
             } else {
               connection.on('connect', function(){
-                console.log("------------222", JSON.stringify(autoplay))
-                  connection.emit('videoShare:load', {"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=SvVTFgKJBeU","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"d08e1c97a115","serverUrl":"https://wrtc21.bigmarker.com","keys":"uid=3958f03e6d28&rid=d9537b7eeca2","volume":"100","startAt":0,"startTime":1502352777,"_id":"598c15293a73cc1da1f7df4f","sendStatus":"0"});
+                console.log("------------222")
+                  connection.emit('videoShare:load', params);
 
                 Autoplay.update({_id: autoplay._id},{$set:{sendStatus: 1}},function(err){
                   if (err){
