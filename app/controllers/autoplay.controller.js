@@ -17,36 +17,24 @@ module.exports = {
 
   find: function(req,res,next){
 
+      var id = req.query.id
 
-    var id = req.query.id
+      var ab = socket.connect("https://wrtc21.bigmarker.com", {
+        secure: true,
+        query: "uid=3958f03e6d28&rid=5935cbf99fcd"
+      });
 
-    if (id==1){
-       var ab = socket.connect("https://wrtc21.bigmarker.com", {
-      secure: true,
-      query: "uid=3958f03e6d28&rid=85ccb4615f86"
-    });
-
+    if (ab.connected){
         ab.emit('videoShare:load',{"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=5mHUzJzBQsY","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"3d81ae725617","serverUrl":"https://wrtc-test1.bigmarker.com","keys":"uid=3958f03e6d28&rid=3d81ae725617","volume":"100","startAt":0,"startTime":1502262900,"_id":"598ab1ee602a66316ad7f2d5","sendStatus":"0"});
 
     }else {
-       var ab = socket.connect("https://wrtc21.bigmarker.com", {
-      secure: true,
-      query: "uid=3958f03e6d28&rid=85ccb4615f86"
-    });
+      ab.on('connect', function(){
+        console.log("=======", ab)
 
+          ab.emit('videoShare:load',{"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=5mHUzJzBQsY","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"3d81ae725617","serverUrl":"https://wrtc-test1.bigmarker.com","keys":"uid=3958f03e6d28&rid=3d81ae725617","volume":"100","startAt":0,"startTime":1502262900,"_id":"598ab1ee602a66316ad7f2d5","sendStatus":"0"})
 
-    console.log("=======", ab.connected)
-
-
-    ab.on('connect', function(){
-      console.log("=======", ab)
-
-        ab.emit('videoShare:load',{"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=5mHUzJzBQsY","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"3d81ae725617","serverUrl":"https://wrtc-test1.bigmarker.com","keys":"uid=3958f03e6d28&rid=3d81ae725617","volume":"100","startAt":0,"startTime":1502262900,"_id":"598ab1ee602a66316ad7f2d5","sendStatus":"0"})
-
-    });
+      });
     }
-
-   
 
     res.send('respond with a resource');
 
@@ -85,13 +73,15 @@ module.exports = {
               });
 
 
-            if connection.connected {
+            if (connection.connected == true) {
+
               console.log("------------1111", JSON.stringify(autoplay))
               connection.emit('videoShare:load', JSON.stringify(autoplay));
               Autoplay.update({_id: autoplay._id},{$set:{sendStatus: 1}},function(err){
                 if (err){
                   console.log("===========", err);
                 }
+              });
             } else {
               connection.on('connect', function(){
                 console.log("------------222", JSON.stringify(autoplay))
@@ -104,6 +94,9 @@ module.exports = {
                 });
               });
             }
+
+
+
 
           });
 
