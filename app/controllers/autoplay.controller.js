@@ -17,24 +17,48 @@ module.exports = {
 
   find: function(req,res,next){
 
-      var id = req.query.id
 
-      var ab = socket.connect("https://wrtc21.bigmarker.com", {
-        secure: true,
-        query: "uid=3958f03e6d28&rid=5935cbf99fcd"
-      });
+          var date = new Date(Date.now()+100000);
+          
+          console.log("========", date)
 
-    if (ab.connected){
-        ab.emit('videoShare:load',{"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=5mHUzJzBQsY","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"3d81ae725617","serverUrl":"https://wrtc-test1.bigmarker.com","keys":"uid=3958f03e6d28&rid=3d81ae725617","volume":"100","startAt":0,"startTime":1502262900,"_id":"598ab1ee602a66316ad7f2d5","sendStatus":"0"});
+          var job = schedule.scheduleJob("sdfsdf", date, function(){
 
-    }else {
-      ab.on('connect', function(){
-        console.log("=======", ab)
 
-          ab.emit('videoShare:load',{"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=5mHUzJzBQsY","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"3d81ae725617","serverUrl":"https://wrtc-test1.bigmarker.com","keys":"uid=3958f03e6d28&rid=3d81ae725617","volume":"100","startAt":0,"startTime":1502262900,"_id":"598ab1ee602a66316ad7f2d5","sendStatus":"0"})
+              var params = {"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=5mHUzJzBQsY","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"3d81ae725617","serverUrl":"https://wrtc-test1.bigmarker.com","keys":"uid=3958f03e6d28&rid=3d81ae725617","volume":"100","startAt":0,"startTime":1502262900,"_id":"598ab1ee602a66316ad7f2d5","sendStatus":"0"}
 
-      });
-    }
+              var connection = socket.connect("https://wrtc21.bigmarker.com", {
+                secure: true,
+                query:  "uid=3958f03e6d28&rid=d9537b7eeca2" 
+              });
+
+            if (connection.connected == true) {
+              connection.emit('videoShare:load', params);
+            } else {
+              connection.on('connect', function(){
+                connection.emit('videoShare:load', params);
+              });
+            }
+
+          });
+
+
+      //var ab = socket.connect("https://wrtc21.bigmarker.com", {
+        //secure: true,
+        //query: "uid=3958f03e6d28&rid=5935cbf99fcd"
+      //});
+
+    //if (ab.connected){
+        //ab.emit('videoShare:load',{"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=5mHUzJzBQsY","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"3d81ae725617","serverUrl":"https://wrtc-test1.bigmarker.com","keys":"uid=3958f03e6d28&rid=3d81ae725617","volume":"100","startAt":0,"startTime":1502262900,"_id":"598ab1ee602a66316ad7f2d5","sendStatus":"0"});
+
+    //}else {
+      //ab.on('connect', function(){
+        //console.log("=======", ab)
+
+          //ab.emit('videoShare:load',{"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=5mHUzJzBQsY","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"3d81ae725617","serverUrl":"https://wrtc-test1.bigmarker.com","keys":"uid=3958f03e6d28&rid=3d81ae725617","volume":"100","startAt":0,"startTime":1502262900,"_id":"598ab1ee602a66316ad7f2d5","sendStatus":"0"})
+
+      //});
+    //}
 
     res.send('respond with a resource');
 
@@ -63,6 +87,9 @@ module.exports = {
 
           var name = autoplay.conferenceId;
           var date = new Date(autoplay.startTime * 1000);
+          //var date = new Date(Date.now()+80000);
+
+          console.log("============", date);
 
           var job = schedule.scheduleJob(name, date, function(){
 
@@ -77,7 +104,7 @@ module.exports = {
             if (connection.connected == true) {
 
               console.log("------------1111", JSON.stringify(autoplay))
-              connection.emit('videoShare:load', JSON.stringify(autoplay));
+              connection.emit('videoShare:load', {"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=SvVTFgKJBeU","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"d08e1c97a115","serverUrl":"https://wrtc21.bigmarker.com","keys":"uid=3958f03e6d28&rid=d9537b7eeca2","volume":"100","startAt":0,"startTime":1502352777,"_id":"598c15293a73cc1da1f7df4f","sendStatus":"0"});
               Autoplay.update({_id: autoplay._id},{$set:{sendStatus: 1}},function(err){
                 if (err){
                   console.log("===========", err);
@@ -86,7 +113,7 @@ module.exports = {
             } else {
               connection.on('connect', function(){
                 console.log("------------222", JSON.stringify(autoplay))
-                  connection.emit('videoShare:load', JSON.stringify(autoplay));
+                  connection.emit('videoShare:load', {"__v":0,"youtubeLink":"https://www.youtube.com/watch?v=SvVTFgKJBeU","isMuted":0,"playingState":"1","eventTime":"0","videoType":"youtube","autoplay":999,"elapseTime":0,"conferenceId":"d08e1c97a115","serverUrl":"https://wrtc21.bigmarker.com","keys":"uid=3958f03e6d28&rid=d9537b7eeca2","volume":"100","startAt":0,"startTime":1502352777,"_id":"598c15293a73cc1da1f7df4f","sendStatus":"0"});
 
                 Autoplay.update({_id: autoplay._id},{$set:{sendStatus: 1}},function(err){
                   if (err){
@@ -95,9 +122,6 @@ module.exports = {
                 });
               });
             }
-
-
-
 
           });
 
