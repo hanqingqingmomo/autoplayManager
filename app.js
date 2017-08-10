@@ -21,7 +21,6 @@ var socket = require('socket.io-client');
 
 var app = express();
 
-require('./app/routes/autoplay.routes')(app)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +33,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+require('./app/routes/autoplay.routes')(app)
 
 //app.use('/', index);
 //app.use('/users', users);

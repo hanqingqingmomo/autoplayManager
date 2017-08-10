@@ -53,6 +53,7 @@ module.exports = {
   },
 
   create: function(req, res, next){
+     console.log("====", req.body);
      var autoplay = new Autoplay(req.body)
       autoplay.save(function(err, autoplay){
         if (err){
