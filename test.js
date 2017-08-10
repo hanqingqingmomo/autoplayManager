@@ -1,7 +1,7 @@
 var sc = require('socket.io-client');
-var ab = sc.connect("https://wrtc-test1.bigmarker.com", {
+var ab = sc.connect("https://wrtc21.bigmarker.com", {
   secure: true,
-  query: "uid=3958f03e6d28&rid=3d81ae725617"
+  query: "uid=3958f03e6d28&rid=33b4fdc6e086"
 });
 
 ab.on('connect', function(){

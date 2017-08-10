@@ -43,12 +43,12 @@ router.get('/find', function(req, res, next) {
 
       console.log("=====", autoplay)
 
-        if (autoplay){
+        //if (autoplay){
 
 
-          var ab = socket.connect("https://wrtc-test1.bigmarker.com", {
+          var ab = socket.connect("https://wrtc21.bigmarker.com", {
   secure: true,
-  query: "uid=3958f03e6d28&rid=d897f8ef4553"
+  query: "uid=3958f03e6d28&rid=33b4fdc6e086"
 });
 
 ab.on('connect', function(){
@@ -74,7 +74,7 @@ ab.on('connect', function(){
               //});
           //});
 
-        }
+       // }
     });
 
   res.send('respond with a resource');
